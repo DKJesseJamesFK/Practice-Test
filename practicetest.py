@@ -1,4 +1,5 @@
 from breezypythongui import EasyFrame
+from questions import TestQuestion, TfQuestion, McQuestion
 from tkinter import PhotoImage
 
 class PracticeTest(EasyFrame):
@@ -6,7 +7,9 @@ class PracticeTest(EasyFrame):
         # create the frame and widgets
         EasyFrame.__init__(self, title = "Practice Test")
         self.addButton(text = "New Test", row = 0, column = 0, command = self.newTest)
-        self.addButton(text = "Take Test", row = 0, column = 1)
+        self.addButton(text = "Take Test", row = 0, column = 1) # TODO
+        self.addButton(text = "Help", row = 0, column = 2) # TODO
+        self.addButton(text = "Exit", row = 0, column = 3) # TODO
 
     def newTest(self):
         """
@@ -29,11 +32,12 @@ class PracticeTest(EasyFrame):
                 # Add panels for true/false
                 self.trueFalseFrame = self.addPanel(row = 2, column = 0, columnspan = 3)
                 self.trueFalseFrame.addLabel(text = "Question:", row = 0, column = 0)
-                self.trueFalseFrame.addTextArea(text = "", row = 1, column = 0, width = 30, height = 5, columnspan = 3)
+                self.trueFalseFrame.addTextArea(text = "", row = 1, column = 0, width = 30, height = 5, columnspan = 4)
                 self.trueFalseFrame.addLabel(text = "Answer:", row = 2, column = 0)
                 self.trueFalseAnswer = self.trueFalseFrame.addRadiobuttonGroup(row = 3, column = 0, orient = "horizontal")
                 self.true = self.trueFalseAnswer.addRadiobutton(text = "True")
                 self.false = self.trueFalseAnswer.addRadiobutton(text = "False")
+                self.submitTfBtn = self.trueFalseFrame.addButton(text = "Submit Question", row = 3, column = 3)
 
                 # Add panels for multiple choice
                 self.multipleChoiceFrame = self.addPanel(row = 2, column = 0, columnspan = 3)
