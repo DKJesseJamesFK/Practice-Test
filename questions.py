@@ -5,6 +5,12 @@ class TestQuestion:
         self.question = question # Text of question
         self.correct = correct # The letter answer
 
+    def __str__(self):
+        return f"{self.number}. {self.question}, {self.correct}"
+
+    def __repr__(self):
+        return self.__str__()
+
 class TfQuestion(TestQuestion):
     """True or False Question. Correct = either True or False boolean value"""
     def __init__(self, number, question, correct):
