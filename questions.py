@@ -1,6 +1,8 @@
+from breezypythongui import EasyFrame
+from tkinter import StringVar
 class TestQuestion:
-    def __init__(self, questionType, number, question, correct):
-        self.questionType = questionType # TF or MC
+    def __init__(self, number, question, correct):
+        #self.questionType = questionType # TF or MC
         self.number = number # Question number
         self.question = question # Text of question
         self.correct = correct # The letter answer
@@ -14,15 +16,18 @@ class TestQuestion:
 class TfQuestion(TestQuestion):
     """True or False Question. Correct = either True or False boolean value"""
     def __init__(self, number, question, correct):
-        super().__init__("TF", number, question, correct)
+        super().__init__(number, question, correct)
  
 
 class McQuestion(TestQuestion):
     """Multiple Choice Question. Correct = the letter of the correct answer"""
-    def __init__(self, number, question, correct, a, b, c, d, e):
+    def __init__(self, number, question, correct, a, b, c=None, d=None, e=None):
         super().__init__(number, question, correct)
         self.a = a
         self.b = b
         self.c = c
         self.d = d
         self.e = e
+
+    def __str__(self):
+        return f"{self.number}. {self.question}, {self.correct}, {self.a}, {self.b}, {self.c}, {self.d}, {self.e}"
