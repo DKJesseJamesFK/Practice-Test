@@ -31,3 +31,6 @@ class McQuestion(TestQuestion):
 
     def __str__(self):
         return f"{self.number}. {self.question}, {self.correct}, {self.a}, {self.b}, {self.c}, {self.d}, {self.e}"
+
+    def __repr__(self):
+        return self.__str__()
