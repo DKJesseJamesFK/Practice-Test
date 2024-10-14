@@ -159,10 +159,13 @@ class PracticeTest(EasyFrame):
                 self.answerB = self.multipleChoiceFrame.addTextArea(text = "", row = 4, column = 1, height=2, width=20, columnspan=2, wrap="word")
                 self.multipleChoiceFrame.addLabel(text = "C. ", row = 5, column = 0, sticky="NSEW")
                 self.answerC = self.multipleChoiceFrame.addTextArea(text = "", row = 5, column = 1, height=2, width=20, columnspan=2, wrap="word")
+                self.answerC.configure(state = "disabled")
                 self.multipleChoiceFrame.addLabel(text = "D. ", row = 6, column = 0, sticky="NSEW")
                 self.answerD = self.multipleChoiceFrame.addTextArea(text = "", row = 6, column = 1, height=2, width=20, columnspan=2, wrap="word")
+                self.answerD.configure(state = "disabled")
                 self.multipleChoiceFrame.addLabel(text = "E. ", row = 7, column = 0, sticky="NSEW")
                 self.answerE = self.multipleChoiceFrame.addTextArea(text = "", row = 7, column = 1, height=2, width=20, columnspan=2, wrap="word")
+                self.answerE.configure(state = "disabled")
                 self.multipleChoiceFrame.addLabel(text = "Correct Answer:", row = 8, column = 0)
                 self.multipleChoiceAnswer = self.multipleChoiceFrame.addRadiobuttonGroup(row = 8, column = 1, orient = "horizontal")
                 self.multipleChoiceAnswerVar = StringVar()
@@ -180,6 +183,8 @@ class PracticeTest(EasyFrame):
                 self.submitTestBtn = self.multipleChoiceFrame.addButton(text="Submit Test", row=10, column=1, command = self.submitTest)
 
                 # Bind keys to answer text areas so not selectable if blank
+                self.answerA.bind("<KeyRelease>", self.updateAnswerAB)
+                self.answerB.bind("<KeyRelease>", self.updateAnswerAB)
                 self.answerC.bind("<KeyRelease>", self.updateAnswerC)
                 self.answerD.bind("<KeyRelease>", self.updateAnswerD)
                 self.answerE.bind("<KeyRelease>", self.updateAnswerE)
@@ -191,13 +196,20 @@ class PracticeTest(EasyFrame):
                 self.imageLabel.configure(image = self.image)
                 self.nullFrame.lift()
 
+
+            def updateAnswerAB(self, event):
+                """Updates state of option A and B based on answerA and answerB fields"""
+                self.answerC.configure(state="normal" if self.answerA.get("1.0", "end").strip() and self.answerB.get("1.0", "end").strip() else "disabled")
+
             def updateAnswerC(self, event):
                 """Updates state of option C based on answerC field"""
                 self.C.configure(state="normal" if self.answerC.get("1.0", "end").strip() else "disabled")
+                self.answerD.configure(state="normal" if self.answerC.get("1.0", "end").strip() else "disabled")
 
             def updateAnswerD(self, event):
                 """Updates state of option D based on answerD field"""
                 self.D.configure(state="normal" if self.answerD.get("1.0", "end").strip() else "disabled")
+                self.answerE.configure(state="normal" if self.answerD.get("1.0", "end").strip() else "disabled")
 
             def updateAnswerE(self, event):
                 """Updates state of option E based on answerE field"""
@@ -270,10 +282,24 @@ class PracticeTest(EasyFrame):
 
             def submitMc(self):
                 """Submits a multiple choice question to the test."""
+                # Input Validation
                 if self.multipleChoiceQuestion.get("1.0", "end").strip() == "":
                     self.messageBox(title = "Error", message = "Please enter a question")
                 elif self.answerA.get("1.0", "end").strip() == "" or self.answerB.get("1.0", "end").strip() == "":
                     self.messageBox(title = "Error", message = "Please enter an answer for A and B at least.")
+                elif self.answerE.get("1.0", "end").strip() != "":
+                    if self.answerC.get("1.0", "end").strip() == "" or self.answerD.get("1.0", "end").strip() == "":
+                        self.messageBox(title = "Error", message = "You can't have an answer for E without an answer for C and D.")
+                elif self.answerE.get("1.0", "end").strip() == "" and self.multipleChoiceAnswerVar.get() == "E":
+                    self.messageBox(title = "Error", message = "The answer E cannot be selected if the answer is empty.")
+                elif self.answerD.get("1.0", "end").strip() != "":
+                    if self.answerC.get("1.0", "end").strip() == "":
+                        self.messageBox(title = "Error", message = "You can't have an answer for D without an answer for C.")
+                elif self.answerC.get("1.0", "end").strip() == "" and self.multipleChoiceAnswerVar.get() == "C":
+                    self.messageBox(title = "Error", message = "The answer C cannot be selected if the answer is empty.")
+                elif self.answerD.get("1.0", "end").strip() == "" and self.multipleChoiceAnswerVar.get() == "D":
+                    self.messageBox(title = "Error", message = "The answer D cannot be selected if the answer is empty.")
+                
                 else:
                     self.test.append(McQuestion(self.number, self.multipleChoiceQuestion.get("1.0", "end"), self.multipleChoiceAnswerVar.get(), self.answerA.get("1.0", "end"), self.answerB.get("1.0", "end"), self.answerC.get("1.0", "end"), self.answerD.get("1.0", "end"), self.answerE.get("1.0", "end")))
                     self.number += 1
@@ -623,3 +649,7 @@ if __name__ == "__main__":
 # answer itself would still be the previous one. For example if question 1 was A, that's fine. Question 2 is C, that is also fine. Question 3 is A
 # then the radio button is on a, but the variable is saved as C. I fixed it.
 # Added and tested Understanding This Program test. It works flawllessly!
+
+# 10/14/2024
+# Input validation for the multiple choice test creation implemented. Text boxes and radio buttons are are disabled if unusable, and if radio buttons 
+# are selected that shouldn't be or text is entered in a box it shouldn't be an error message pops up.
