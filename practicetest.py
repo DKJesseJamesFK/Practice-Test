@@ -101,6 +101,7 @@ class PracticeTest(EasyFrame):
         
 
     def reset(self):
+        """Resets state of the main menu."""
         self.newTestBtn.configure(state = "normal")
         self.takeTestBtn.configure(state = "normal")
         self.deleteTestBtn.configure(state = "normal")
@@ -114,6 +115,7 @@ class PracticeTest(EasyFrame):
         self.deleteTestBtn.configure(state = "disabled")
         
         class NewTest(EasyFrame):
+            """This is the test creation part of the program."""
             def __init__(self, practice_test):
                 EasyFrame.__init__(self, title = "New Test", resizable = False)
                 self.practice_test = practice_test
@@ -189,6 +191,8 @@ class PracticeTest(EasyFrame):
                 self.answerD.bind("<KeyRelease>", self.updateAnswerD)
                 self.answerE.bind("<KeyRelease>", self.updateAnswerE)
 
+
+                # Default panel when adding a new test. This panel hides the true/false and multiple choice panels until test is named.
                 self.nullFrame = self.addPanel(row = 2, column = 0, columnspan = 3)
                 self.image = PhotoImage(file = "images/paper.gif")
                 self.image = self.image.subsample(2, 2)
@@ -282,7 +286,7 @@ class PracticeTest(EasyFrame):
 
             def submitMc(self):
                 """Submits a multiple choice question to the test."""
-                # Input Validation
+                # Much Input Validation
                 if self.multipleChoiceQuestion.get("1.0", "end").strip() == "":
                     self.messageBox(title = "Error", message = "Please enter a question")
                 elif self.answerA.get("1.0", "end").strip() == "" or self.answerB.get("1.0", "end").strip() == "":
@@ -403,11 +407,11 @@ class PracticeTest(EasyFrame):
                     TFPopup.current_popup.destroy()
                 self.destroy()
                 
-
         takeTest = PracticeTest(self)
         takeTest.mainloop()
 
     def deleteTest(self):
+        """Opens a dialog for selecting a practice test to delete."""
         self.newTestBtn.configure(state = "disabled")
         self.takeTestBtn.configure(state = "disabled")
         self.deleteTestBtn.configure(state = "disabled")
@@ -443,7 +447,7 @@ class PracticeTest(EasyFrame):
 
 
             def delete(self):
-                """Deletes the selected test."""
+                """Deletes the selected test unless it is the one for Understanding This Program."""
                 if not self.test_name.get():
                     self.messageBox(title = "Error", message = "No test selected.")
                     return
@@ -470,25 +474,8 @@ class PracticeTest(EasyFrame):
 
         DeleteTest(self).mainloop()
 
-    # def help(self):
-    #     self.newTestBtn.configure(state = "disabled")
-    #     self.takeTestBtn.configure(state = "disabled")
-    #     self.deleteTestBtn.configure(state = "disabled")
-
-    #     class Help(EasyFrame):
-    #         def __init__(self):
-    #             EasyFrame.__init__(self, title="Help")
-    #             self.image = PhotoImage(file = "images/help.gif")
-    #             self.image = self.image.subsample(2, 2)
-    #             self.canvas = self.addCanvas(width = 400, height = 300)
-    #             self.canvas.create_image(0, 0, anchor = "nw", image = self.image)
-    #             self.canvas.image = self.image
-                
-    #             self.addLabel(text = "Help", row = 0, column = 0)
-                
-    #     Help().mainloop()
-
 class MCPopup(EasyFrame):
+    """Popup for multiple choice questions."""
     def __init__(self, length, number, question, a, b, c=None, d=None, e=None, question_list = None, answers = None, startTestBtn = None):
         EasyFrame.__init__(self, title = "Multiple Choice", resizable = False)
         self.question_list = question_list if question_list is not None else []
@@ -518,6 +505,7 @@ class MCPopup(EasyFrame):
         self.addButton(text = testBtn, row = 2, column = 0, command = self.takeTestSubmit)
 
     def takeTestSubmit(self):
+        """Called when the user submits an answer."""
         self.answers.append(self.takeTestQuestVar.get())
         if self.takeTestQuestVar.get() != self.question_list[self.current_index].correct:
             self.messageBox(title = "Incorrect", message = "Incorrect. The correct answer was " + self.question_list[self.current_index].correct)
@@ -542,6 +530,7 @@ class MCPopup(EasyFrame):
             self.destroy()
             
 class TFPopup(EasyFrame):
+    """Popup for true/false questions."""
     def __init__(self, length, number, question, correct, question_list = None, answers = None, startTestBtn = None):
         EasyFrame.__init__(self, title = "True/False", resizable = False)
         self.correct = correct
@@ -566,6 +555,7 @@ class TFPopup(EasyFrame):
         self.addButton(text = testBtn, row = 2, column = 0, command = self.takeTestSubmit)
 
     def takeTestSubmit(self):
+        """Called when the user submits an answer."""
         self.answers.append(self.takeTestQuestVar.get())
         if self.takeTestQuestVar.get() != self.question_list[self.current_index].correct:
             self.messageBox(title = "Incorrect", message = "Incorrect. The correct answer was " + self.question_list[self.current_index].correct)
@@ -653,3 +643,5 @@ if __name__ == "__main__":
 # 10/14/2024
 # Input validation for the multiple choice test creation implemented. Text boxes and radio buttons are are disabled if unusable, and if radio buttons 
 # are selected that shouldn't be or text is entered in a box it shouldn't be an error message pops up.
+
+# Added some more notes. I think I have a few unused variables to remove from this program. length?
