@@ -1,4 +1,10 @@
 """
+Practice Test
+Written by Jesse Fry
+This program allows the user to enter, take, and delete practice tests. It is intended to be a study tool for students like myself.
+The interface is optimized for simplicity and ease of use over customization.
+All questions are stored in a .txt file.
+
 Main Window:
 newTestButton is the new test button that opens the new test dialog.
 self.testIsOpen is a boolean that is true if a test is open.
@@ -250,6 +256,7 @@ class PracticeTest(EasyFrame):
                     self.questionNumber = self.addLabel(text = f"Question number {self.number}", row = 1, column = 0)
                     self.trueFalseQuestion.delete("1.0", "end")
                     self.trueFalseAnswer.setSelectedButton(self.true)
+                    self.trueFalseAnswerVar.set("True")
                     # print(self.test) # TESTING PURPOSES
 
             def setMultipleChoice(self):
@@ -273,11 +280,15 @@ class PracticeTest(EasyFrame):
                     self.questionNumber = self.addLabel(text = f"Question number {self.number}", row = 1, column = 0)
                     self.multipleChoiceQuestion.delete("1.0", "end")
                     self.multipleChoiceAnswer.setSelectedButton(self.A)
+                    self.multipleChoiceAnswerVar.set("A")
                     self.answerA.delete("1.0", "end")
                     self.answerB.delete("1.0", "end")
                     self.answerC.delete("1.0", "end")
                     self.answerD.delete("1.0", "end")
                     self.answerE.delete("1.0", "end")
+                    self.C.configure(state = "disabled")
+                    self.D.configure(state = "disabled")
+                    self.E.configure(state = "disabled")
                     # print(self.test) # TESTING PURPOSES
                     # print(McQuestion) # TESTING PURPOSES
 
@@ -507,6 +518,7 @@ class MCPopup(EasyFrame):
 class TFPopup(EasyFrame):
     def __init__(self, length, number, question, correct, question_list = None, answers = None, startTestBtn = None):
         EasyFrame.__init__(self, title = "True/False", resizable = False)
+        self.correct = correct
         self.question_list = question_list if question_list is not None else []
         self.answers = answers if answers is not None else []
         self.current_index = (number - 1)
@@ -604,3 +616,10 @@ if __name__ == "__main__":
 # Question 5 and 8 and 10 are incorrect.
 # I think I should set a fixed size for the test taking window as well. Simply setting the window size and ability to
 # resize the window does not work.
+
+# 10/13/2024
+# Last minute fix. I figured out why the test answers were off! When running tf and mc submit question, the answers were not being reset.
+# So if a question was entered that was not A or True, the next time I entered a question that was A or True the radio button would be set but the 
+# answer itself would still be the previous one. For example if question 1 was A, that's fine. Question 2 is C, that is also fine. Question 3 is A
+# then the radio button is on a, but the variable is saved as C. I fixed it.
+# Added and tested Understanding This Program test. It works flawllessly!

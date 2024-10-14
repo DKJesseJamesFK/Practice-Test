@@ -1,0 +1,20 @@
+Welcome to Practice Test! This is an application I developed to help with studying. The main window lists four different tasks that you can do in this simple application.
+
+New Test opens up a window that allows you to submit a new practice test. As of today, the application accepts two types of question formats: Multiple Choice and True/False. Before you can begin adding questions to the practice test, you must enter the title of the new test. Once you have done that, the fun begins!
+You can toggle back and forth between Multiple Choice and True/False format questions by using the radio buttons directly underneath the title of your test.
+For multiple choice questions, enter the question in the text box directly under the text that says "Question:" Then, add the possible answers into the text boxes labeled A through E. You must include at least an A and B answer, but the rest are optional.
+Below the Answers area you will find a set of radio buttons labeled "Correct Answer:" which you will use to pick the correct answer. Click the Submit Question button to save the question and answers you have entered, and click the Submit Test button when you are done creating the test.
+For True/False questions, you only need to enter the question (or statement) into the Question field, mark the correct True or False radio button, and click the Submit Question button.
+The Back button will bring you back to the main window at any time, but if you have started a test and not submitted it that test data will be lost.
+
+Take Test opens up a window that allows you to take any of the practice tests that you have saved. A list of your saved tests will populate. Click the corresponding radio button of the test you would like to take, then click the Start Test button.
+For each question, choose the answer you think is correct and click the Submit Question button when you are ready. If you get the answer correct, the next question will populate. If your answer was incorrect, a message box will appear to let you know what the correct answer was before the next question populates. When you reach the final question on the practice test, the Submit Question button will become a Submit Test button. After you submit the test, another message box will appear displaying your test score. You will then be brought back to the Take Test selection window.
+The Back button will bring you back to the main window at any time.
+
+Delete Test opens a window that allows you to delete any of the tests you have created and saved. Be careful, because this is permanent!
+Select the saved test you wish to delete from the menu, then click the Delete button. A message box will pop up to inform you the test was deleted, and you will be brought back to the main window.
+The Back button will bring you back to the main window at any time.
+
+Help opens up this help file.
+
+If you have any questions or feedback, you can email me at jfry59@ivytech.edu
